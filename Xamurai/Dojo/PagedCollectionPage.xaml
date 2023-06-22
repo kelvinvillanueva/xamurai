@@ -1,14 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-	x:Class="Xamurai.PagedCollectionPage"
-	xmlns="http://xamarin.com/schemas/2014/forms"
-	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-	<ContentPage.Content>
-		<StackLayout>
-			<Label
-				HorizontalOptions="CenterAndExpand"
-				Text="CHALLENGE #1: Paged Collection View"
-				VerticalOptions="CenterAndExpand" />
-		</StackLayout>
-	</ContentPage.Content>
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Xamurai"
+             x:Class="Xamurai.PagedCollectionPage"
+             x:Name="pagedCollectionPage"
+             Title="Paged Collection View">
+
+    <CarouselView ItemsSource="{Binding CarGroups}">
+        <CarouselView.ItemTemplate>
+            <DataTemplate>
+                <FlexLayout Direction="Column"
+                            JustifyContent="SpaceAround"
+                            AlignItems="Stretch"
+                            AlignContent="SpaceAround">
+                    <local:CarView BindingContext="{Binding Cars[0]}"/>
+                    <local:CarView BindingContext="{Binding Cars[1]}"/>
+                </FlexLayout>
+            </DataTemplate>
+        </CarouselView.ItemTemplate>
+    </CarouselView>
+
 </ContentPage>

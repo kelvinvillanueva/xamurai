@@ -1,8 +1,10 @@
 ﻿using Prism.Mvvm;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
+using Xamurai.Models;
 
 namespace Xamurai
 {
@@ -12,7 +14,8 @@ namespace Xamurai
 		{
 			GridSpan = Device.Idiom == TargetIdiom.Phone ? 1 : 2;
 			BuildCars();
-		}
+            BuildCarGroups();
+        }
 
 		private int _gridSpan;
 
@@ -47,7 +50,17 @@ namespace Xamurai
 			};
 		}
 
-		private ObservableCollection<Car> _cars;
+        private void BuildCarGroups()
+        {
+            var groups = Cars.Select((car, index) => new { car, index })
+                             .GroupBy(x => x.index / 2)
+                             .Select(g => new GroupedCars { Cars = new List<Car>(g.Select(x => x.car)) })
+                             .ToList();
+
+            CarGroups = new ObservableCollection<GroupedCars>(groups);
+        }
+
+        private ObservableCollection<Car> _cars;
 
 		public ObservableCollection<Car> Cars
 		{
@@ -55,5 +68,12 @@ namespace Xamurai
 			set { SetProperty(ref _cars, value); }
 		}
 
-	}
+        private ObservableCollection<GroupedCars> _carGroups;
+        public ObservableCollection<GroupedCars> CarGroups
+        {
+            get { return _carGroups; }
+            set { SetProperty(ref _carGroups, value); }
+        }
+
+    }
 }
